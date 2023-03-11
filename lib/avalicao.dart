@@ -12,10 +12,10 @@ caracteres (incluindo espaços);
   String disciplina_nome = "";
   String data = "";
   Tipo? tipo = Tipo.frequencia;
-  String hora = "";
   int nivel = 0;
   String observacoes = "";
+  DateTime? dateTime;
 
-  Avaliacao (this.disciplina_nome, this.tipo, this.data, this.hora, this.nivel, this.observacoes);
+  Avaliacao (this.disciplina_nome, this.tipo, this.data, this.nivel, this.observacoes);
 
 }

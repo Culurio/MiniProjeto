@@ -4,37 +4,32 @@ import 'package:mini_projeto/widgets/build_text_widget.dart';
 import 'package:mini_projeto/widgets/button_widget.dart';
 import 'package:mini_projeto/main.dart';
 import 'package:mini_projeto/tipo_avaliacao.dart';
+import 'package:mini_projeto/widgets/date_hour_picker.dart';
 
 class EditarRegistodWidget extends StatefulWidget {
-   Avaliacao avaliacao;
-   int index;
-   EditarRegistodWidget({required this.avaliacao,required this.index,
+  Avaliacao avaliacao;
+  int index;
+  EditarRegistodWidget({
     super.key,
+    required this.index,
+    required this.avaliacao
   });
 
   @override
   State<EditarRegistodWidget> createState() => _EditarRegistoWidgetState();
 }
 
-
 class _EditarRegistoWidgetState extends State<EditarRegistodWidget> {
   final formKey = GlobalKey<FormState>();
   late int _value;
   Tipo? tipo;
   var avaliacao;
-
   @override
   Widget build(BuildContext context) {
     avaliacao = widget.avaliacao;
     tipo = avaliacao.tipo;
     _value = avaliacao.nivel;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Agenda IQueChumbei",
-          style: TextStyle(fontFamily: 'Gotham',fontWeight: FontWeight.bold, fontSize: 20),
-        ),
-      ),
       body: Form(
         key: formKey,
         //autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -44,42 +39,29 @@ class _EditarRegistoWidgetState extends State<EditarRegistodWidget> {
             Column(
               children: [
                 ListTile(
-                  title: BuildText_widget(text: "Editar nome da disciplina", icon: Icons.person),
+                  title: BuildText_widget(text: "Nome da disciplina", icon: Icons.person),
                   subtitle: buildForm(avaliacao.disciplina_nome, false, "nome"),
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ListTile(
-                        title: BuildText_widget(text: "Editar data", icon: Icons.calendar_month),
-                        subtitle: buildForm(avaliacao.data, false, "data"),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                      child: ListTile(
-                        title: BuildText_widget(text: "Editar horas", icon: Icons.watch_later_outlined),
-                        subtitle: buildForm(avaliacao.hora, false, "hora"),
-                      ),
-                    ),
-                  ],
-                ),
+                DatetimePickerWidget(avaliacao:avaliacao,edit: true),
+                const SizedBox(height: 50),
+                BuildText_widget(text: "Tipo da avalição", icon: Icons.text_snippet_outlined),
                 buildOptions(),
+                const SizedBox(height: 50),
                 ListTile(
-                  title: BuildText_widget(text: "Editar dificuldade", icon: Icons.warning_amber_rounded),
+                  title: BuildText_widget(text: "Dificuldade", icon: Icons.warning_amber_rounded),
                   subtitle: sliderDificuldade(),
                 ),
+                const SizedBox(height: 50),
                 SizedBox(
                   height: 200,
                   child: ListTile(
                     subtitle: buildForm(
-                        "Editar observação", true, "obs"),
+                        avaliacao.observacoes, true, "obs"),
                   ),
                 ),
               ],
             ),
+            const SizedBox(height: 50),
             buildSubmit(),
           ],
         ),
@@ -146,7 +128,7 @@ class _EditarRegistoWidgetState extends State<EditarRegistodWidget> {
     );
   }
 
-  Slider sliderDificuldade() {
+  Widget sliderDificuldade() {
     return Slider(
       value: _value.toDouble(),
       min: 1.0,
@@ -177,7 +159,7 @@ class _EditarRegistoWidgetState extends State<EditarRegistodWidget> {
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           contentPadding:
-              const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
+          const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
         ),
       );
     }
@@ -185,24 +167,14 @@ class _EditarRegistoWidgetState extends State<EditarRegistodWidget> {
     return TextFormField(
       initialValue: initialText,
       onChanged: (value) {
-        switch (formName) {
-          case "nome":
-            avaliacao.disciplina_nome = value;
-            break;
-          case "data":
-            avaliacao.data = value;
-            break;
-          case "hora":
-            avaliacao.hora = value;
-            break;
-        }
+        avaliacao.disciplina_nome = value;
       },
       decoration: InputDecoration(
         border: OutlineInputBorder(),
       ),
       validator: (value) {
-        if (value != null && value.length < 4) {
-          return 'Enter at least 4 characters';
+        if (value != null && value.length < 0) {
+          return 'O campo está vazio';
         } else {
           return null;
         }
@@ -214,17 +186,18 @@ class _EditarRegistoWidgetState extends State<EditarRegistodWidget> {
   Widget buildSubmit() {
 
     Avaliacao avaliacao2 = Avaliacao(avaliacao.disciplina_nome, avaliacao.tipo,
-        avaliacao.data, avaliacao.hora, avaliacao.nivel, avaliacao.observacoes);
+        avaliacao.data, avaliacao.nivel, avaliacao.observacoes);
     return Builder(
       builder: (context) => ButtonWidget(
-        text: 'Confirmar edição',
+        text: 'Submeter',
         onClicked: () {
           final isValid = formKey.currentState!.validate();
           // FocusScope.of(context).unfocus();
-
+          debugPrint(avaliacao.data);
           if (isValid) {
-            avaliacaoLista.remover(widget.index);
             avaliacaoLista.adicionar(avaliacao2);
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text('Criado com sucesso')));
           }
         },
       ),

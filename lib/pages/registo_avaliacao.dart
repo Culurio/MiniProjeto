@@ -6,8 +6,6 @@ import 'package:mini_projeto/main.dart';
 import 'package:mini_projeto/tipo_avaliacao.dart';
 import 'package:mini_projeto/widgets/date_hour_picker.dart';
 
-import '../widgets/dateDay_widget.dart';
-
 class RegistodWidget extends StatefulWidget {
   const RegistodWidget({
     super.key,
@@ -18,7 +16,7 @@ class RegistodWidget extends StatefulWidget {
 }
 
 class _RegistoWidgetState extends State<RegistodWidget> {
-  Avaliacao avaliacao = Avaliacao("", Tipo.frequencia, "", "", 3, "");
+  Avaliacao avaliacao = Avaliacao("", Tipo.frequencia, "", 3, "");
   final formKey = GlobalKey<FormState>();
   int _value = 3;
   Tipo? tipo = Tipo.miniTeste;
@@ -38,30 +36,16 @@ class _RegistoWidgetState extends State<RegistodWidget> {
                   title: BuildText_widget(text: "Nome da disciplina", icon: Icons.person),
                   subtitle: buildForm("", false, "nome"),
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ListTile(
-                        title: BuildText_widget(text: "Data", icon: Icons.calendar_month),
-                        subtitle: DateFormDayWidget(avaliacao:avaliacao),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                      child: ListTile(
-                        title: BuildText_widget(text: "Horas", icon: Icons.watch_later_outlined),
-                        subtitle: buildForm("ex: 14:30", false, "hora"),
-                      ),
-                    ),
-                  ],
-                ),
-                buildOptions(),
+                DatetimePickerWidget(avaliacao:avaliacao,edit: false),
+                const SizedBox(height: 50),
+                BuildText_widget(text: "Tipo da avalição", icon: Icons.text_snippet_outlined),
+              buildOptions(),
+                const SizedBox(height: 50),
                 ListTile(
                   title: BuildText_widget(text: "Dificuldade", icon: Icons.warning_amber_rounded),
                   subtitle: sliderDificuldade(),
                 ),
+                const SizedBox(height: 50),
                 SizedBox(
                   height: 200,
                   child: ListTile(
@@ -71,6 +55,7 @@ class _RegistoWidgetState extends State<RegistodWidget> {
                 ),
               ],
             ),
+            const SizedBox(height: 50),
             buildSubmit(),
           ],
         ),
@@ -175,25 +160,15 @@ class _RegistoWidgetState extends State<RegistodWidget> {
 
     return TextFormField(
       onChanged: (value) {
-        switch (formName) {
-          case "nome":
-            avaliacao.disciplina_nome = value;
-            break;
-          case "data":
-            avaliacao.data = value;
-            break;
-          case "hora":
-            avaliacao.hora = value;
-            break;
-        }
+        avaliacao.disciplina_nome = value;
       },
       decoration: InputDecoration(
         border: OutlineInputBorder(),
         hintText: hint,
       ),
       validator: (value) {
-        if (value != null && value.length < 4) {
-          return 'Enter at least 4 characters';
+        if (value != null && value.length < 0) {
+          return 'O campo está vazio';
         } else {
           return null;
         }
@@ -205,7 +180,7 @@ class _RegistoWidgetState extends State<RegistodWidget> {
   Widget buildSubmit() {
 
     Avaliacao avaliacao2 = Avaliacao(avaliacao.disciplina_nome, avaliacao.tipo,
-        avaliacao.data, avaliacao.hora, avaliacao.nivel, avaliacao.observacoes);
+        avaliacao.data, avaliacao.nivel, avaliacao.observacoes);
     return Builder(
       builder: (context) => ButtonWidget(
         text: 'Submeter',

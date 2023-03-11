@@ -1,20 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mini_projeto/avalicao.dart';
 import 'package:mini_projeto/widgets/button_widget_time.dart';
 
 class DatetimePickerWidget extends StatefulWidget {
+  Avaliacao avaliacao;
+  late bool edit;
+   DatetimePickerWidget({
+    super.key,
+    required  this.avaliacao,
+    required this.edit
+  });
+
   @override
   _DatetimePickerWidgetState createState() => _DatetimePickerWidgetState();
 }
 
 class _DatetimePickerWidgetState extends State<DatetimePickerWidget> {
    DateTime? dateTime = null;
-
+   DateTime dateTimeNow = DateTime(DateTime.now().year,DateTime.now().month,
+   DateTime.now().day,DateTime.now().hour,DateTime.now().second);
   String getText() {
-    if (dateTime == null) {
-      return 'Select DateTime';
+    if (dateTime == null && !widget.edit) {
+      return 'Seleciona o dia e a hora';
     } else {
-      return DateFormat('MM/dd/yyyy HH:mm').format(dateTime!);
+      if(widget.edit){
+        return DateFormat('dd/MM/yyyy HH:mm').format(widget.avaliacao.dateTime!);
+      }
+      widget.avaliacao.data = DateFormat('dd/MM/yyyy HH:mm').format(dateTime!);
+      widget.avaliacao.dateTime = dateTime;
+      return widget.avaliacao.data;
     }
   }
 
@@ -67,6 +82,7 @@ class _DatetimePickerWidgetState extends State<DatetimePickerWidget> {
     );
 
     if (newTime == null) return null;
+
 
     return newTime;
   }

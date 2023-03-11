@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mini_projeto/avaliacoesLista.dart';
 import 'package:mini_projeto/pages/listar_registo.dart';
 import 'package:mini_projeto/pages/registo_avaliacao.dart';
-import 'package:mini_projeto/widgets/date_hour_picker.dart';
 
 void main() {
   runApp(MyApp());
@@ -110,7 +109,10 @@ class DashboardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DatetimePickerWidget();
+    return Text(
+      'Dashboard',
+      style: optionStyle,
+    );
   }
 }
 
