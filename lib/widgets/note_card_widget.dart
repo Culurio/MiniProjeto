@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mini_projeto/avalicao.dart';
+import 'package:mini_projeto/pages/editar_avaliacao.dart';
+
 
 class NoteCard extends StatelessWidget {
   late final String title;
@@ -6,12 +9,16 @@ class NoteCard extends StatelessWidget {
   late final String evaluationDate;
   late final String difficulty;
   final VoidCallback? onClicked;
+  Avaliacao avaliacao;
+  int index;
 
   NoteCard(
       {required this.title,
       required this.type,
       required this.evaluationDate,
       required this.difficulty,
+        required this.avaliacao,
+        required this.index,
       this.onClicked});
 
   @override
@@ -25,7 +32,7 @@ class NoteCard extends StatelessWidget {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 2,
             blurRadius: 5,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
@@ -34,8 +41,8 @@ class NoteCard extends StatelessWidget {
         children: [
           Container(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(vertical: 8.0),
-            decoration: BoxDecoration(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            decoration: const BoxDecoration(
               color: Color(0xFF17C3B2),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(8.0),
@@ -46,20 +53,20 @@ class NoteCard extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                   ),
                 )),
           ),
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Tipo:',
                   style: TextStyle(
                     color: Colors.grey,
@@ -69,13 +76,13 @@ class NoteCard extends StatelessWidget {
                 ),
                 Text(
                   type,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 8.0),
-                Text(
+                const SizedBox(height: 8.0),
+                const Text(
                   'Data da Avaliação',
                   style: TextStyle(
                     color: Colors.grey,
@@ -85,13 +92,13 @@ class NoteCard extends StatelessWidget {
                 ),
                 Text(
                   evaluationDate,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 8.0),
-                Text(
+                const SizedBox(height: 8.0),
+                const Text(
                   'Dificuldade:',
                   style: TextStyle(
                     color: Colors.grey,
@@ -101,7 +108,7 @@ class NoteCard extends StatelessWidget {
                 ),
                 Text(
                   difficulty,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -109,21 +116,45 @@ class NoteCard extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
           Align(
             alignment: Alignment.centerRight,
-            child: ElevatedButton(
-              onPressed: onClicked,
-              child: Text(
-                'Ver Observações',
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
+            child: Row(
+              children: [
+                const SizedBox(
+                  width: 5,
                 ),
-              ),
+                ElevatedButton(
+                  onPressed: onClicked,
+                  child: const Text(
+                    'Ver Observações',
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 140,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>EditarRegistodWidget(
+                      avaliacao: avaliacao,index: index)));
+                  },
+                  child: const Text(
+                    'Editar',
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
+              ],
             ),
-          ),
+          )
         ],
       ),
     );

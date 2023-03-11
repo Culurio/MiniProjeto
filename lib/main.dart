@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:mini_projeto/avalicao.dart';
-import 'package:mini_projeto/listar_registo.dart';
-import 'package:mini_projeto/registo_avaliacao.dart';
+import 'package:mini_projeto/avaliacoesLista.dart';
+import 'package:mini_projeto/pages/listar_registo.dart';
+import 'package:mini_projeto/pages/registo_avaliacao.dart';
+import 'package:mini_projeto/widgets/date_hour_picker.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-List<Avaliacao> avaliacaoLista = <Avaliacao>[];
+Lista_Avalicao avaliacaoLista = Lista_Avalicao();
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
@@ -93,7 +94,7 @@ class _HomeState extends State<Home> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.white,
         onTap: _onItemTapped,
-        backgroundColor: Color(0xFFFE6D73),
+        backgroundColor: const Color(0xFFFE6D73),
       ),
     );
   }
@@ -109,10 +110,7 @@ class DashboardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      'Dashboard',
-      style: optionStyle,
-    );
+    return DatetimePickerWidget();
   }
 }
 

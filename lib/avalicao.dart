@@ -18,7 +18,4 @@ caracteres (incluindo espaços);
 
   Avaliacao (this.disciplina_nome, this.tipo, this.data, this.hora, this.nivel, this.observacoes);
 
-
-
-
 }

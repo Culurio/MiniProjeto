@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mini_projeto/main.dart';
-import 'package:mini_projeto/note_card.dart';
+import 'package:mini_projeto/widgets/note_card_widget.dart';
 
 class ListarWidget extends StatefulWidget {
   const ListarWidget({
@@ -18,9 +18,9 @@ class _ListarWidgetState extends State<ListarWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView.builder(
-          itemCount: items.length,
+          itemCount: items.getLista().length,
           itemBuilder: (context, index) {
-            final item = items[index];
+            final item = items.getItem(index);
             return Dismissible(
               // Each Dismissible must contain a Key. Keys allow Flutter to
               // uniquely identify widgets.
@@ -30,18 +30,19 @@ class _ListarWidgetState extends State<ListarWidget> {
               onDismissed: (direction) {
                 // Remove the item from the data source.
                 setState(() {
-                  items.removeAt(index);
+                  items.remover(index);
                 });
 
                 // Then show a snackbar.
                 ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text('$item dismissed')));
+                    .showSnackBar(SnackBar(content: Text('${item.disciplina_nome} foi apagado')));
               },
               // Show a red background as the item is swiped away.
               background: Container(color: Colors.red),
               child: ListTile(
                 title: NoteCard(title:item.disciplina_nome
-                  ,type:item.tipo.toString(),evaluationDate:item.data,difficulty:"${item.nivel}",),
+                  ,type:item.tipo.toString(),evaluationDate:item.data,difficulty:"${item.nivel}",
+                  avaliacao: item,index:index),
               ),
             );
           },
