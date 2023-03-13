@@ -3,7 +3,6 @@ import 'package:mini_projeto/models/avalicao.dart';
 import 'package:mini_projeto/widgets/share_button.dart';
 import 'package:share_plus/share_plus.dart';
 
-import 'build_text_widget.dart';
 
 class SubjectDetailsCard extends StatelessWidget {
   final Avaliacao avaliacao;
@@ -65,7 +64,7 @@ class SubjectDetailsCard extends StatelessWidget {
                   ),
                   SizedBox(width: 10.0),
                   Text(
-                    'Date: ${avaliacao.data}',
+                    'Data da avaliação: ${avaliacao.data}',
                     style: TextStyle(
                       fontSize: 18.0,
                     ),
@@ -86,7 +85,7 @@ class SubjectDetailsCard extends StatelessWidget {
                   ),
                   SizedBox(width: 10.0),
                   Text(
-                    'Difficulty: ${avaliacao.nivel}',
+                    'Dificuldade: ${avaliacao.nivel}',
                     style: TextStyle(
                       fontSize: 18.0,
                     ),

@@ -3,7 +3,7 @@ import 'package:mini_projeto/models/avalicao.dart';
 import 'package:mini_projeto/pages/editar_avaliacao.dart';
 
 import '../pages/listar_registo.dart';
-import 'build_details_widget.dart';
+import '../pages/details_widget.dart';
 
 
 class NoteCard extends StatefulWidget {
