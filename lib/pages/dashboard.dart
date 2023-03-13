@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mini_projeto/main.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
@@ -9,13 +10,13 @@ class Dashboard extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _buildSectionTitle('Average Difficulty - Next 7 Days'),
+          _buildSectionTitle('Dificuldade Média - nos próximos 7 dias'),
           _buildDifficultyBar(0.8), // Replace with actual difficulty value
           SizedBox(height: 20.0),
-          _buildSectionTitle('Average Difficulty - Next 7-14 Days'),
+          _buildSectionTitle('Dificuldade Média - nos próximos 7-14 dias'),
           _buildDifficultyBar(0.4), // Replace with actual difficulty value
           SizedBox(height: 20.0),
-          _buildSectionTitle('Evaluations'),
+          _buildSectionTitle('Avaliações nos próximos 7 dias'),
           _buildEvaluationList(),
         ],
       ),
@@ -56,24 +57,18 @@ class Dashboard extends StatelessWidget {
   }
 
   Widget _buildEvaluationList() {
-    return ListView(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      children: [
-        _buildEvaluationItem('Math', 'A', '95%'),
-        _buildEvaluationItem('Science', 'B', '85%'),
-        _buildEvaluationItem('English', 'A-', '92%'),
-      ],
+    return Expanded(
+      child: ListView.builder(
+        itemCount: avaliacaoLista.getLista().length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(avaliacaoLista.getLista()[index].disciplina_nome),
+            subtitle: Text('Difficulty: ${avaliacaoLista.getLista()[index].nivel}'),
+            trailing: Text('Date: ${avaliacaoLista.getLista()[index].data}'),
+          );
+        },
+      ),
     );
   }
 
-  Widget _buildEvaluationItem(String subject, String grade, String score) {
-    return ListTile(
-      leading: CircleAvatar(
-        child: Text(subject[0]),
-      ),
-      title: Text(subject),
-      subtitle: Text('Grade: $grade, Score: $score'),
-    );
-  }
 }
