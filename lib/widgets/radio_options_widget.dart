@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mini_projeto/tipo_avaliacao.dart';
+import 'package:mini_projeto/models/tipo_avaliacao.dart';
 
 
 class RadioOption extends StatefulWidget {

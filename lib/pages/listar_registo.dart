@@ -16,6 +16,8 @@ class _ListarWidgetState extends State<ListarWidget> {
 
   @override
   Widget build(BuildContext context) {
+    String resposta = "";
+    avaliacaoLista.ordenarData();
     return Scaffold(
         body: ListView.builder(
           itemCount: items.getLista().length,
@@ -24,18 +26,18 @@ class _ListarWidgetState extends State<ListarWidget> {
             return Dismissible(
               // Each Dismissible must contain a Key. Keys allow Flutter to
               // uniquely identify widgets.
-              key: Key(item.toString()),
+                key: UniqueKey(),
               // Provide a function that tells the app
               // what to do after an item has been swiped away.
               onDismissed: (direction) {
                 // Remove the item from the data source.
                 setState(() {
-                  items.remover(index);
+                  resposta = items.remover(index,items.getItem(index));
                 });
 
                 // Then show a snackbar.
                 ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text('${item.disciplina_nome} foi apagado')));
+                    .showSnackBar(SnackBar(content: Text(resposta)));
               },
               // Show a red background as the item is swiped away.
               background: Container(color: Colors.red),

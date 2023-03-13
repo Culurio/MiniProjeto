@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mini_projeto/avalicao.dart';
+import 'package:mini_projeto/models/avalicao.dart';
+import 'package:mini_projeto/pages/listar_registo.dart';
 import 'package:mini_projeto/widgets/build_text_widget.dart';
 import 'package:mini_projeto/widgets/button_widget.dart';
 import 'package:mini_projeto/main.dart';
-import 'package:mini_projeto/tipo_avaliacao.dart';
+import 'package:mini_projeto/models/tipo_avaliacao.dart';
 import 'package:mini_projeto/widgets/date_hour_picker.dart';
 
 class RegistodWidget extends StatefulWidget {
@@ -16,10 +17,10 @@ class RegistodWidget extends StatefulWidget {
 }
 
 class _RegistoWidgetState extends State<RegistodWidget> {
-  Avaliacao avaliacao = Avaliacao("", Tipo.frequencia, "", 3, "");
+  Avaliacao avaliacao = Avaliacao("", Tipo.miniTeste, "", 3, "");
   final formKey = GlobalKey<FormState>();
   int _value = 3;
-  Tipo? tipo = Tipo.miniTeste;
+  Tipo tipo = Tipo.miniTeste;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +74,7 @@ class _RegistoWidgetState extends State<RegistodWidget> {
             groupValue: tipo,
             onChanged: (Tipo? value) {
               setState(() {
-                tipo = value;
+                tipo = value!;
               });
               avaliacao.tipo = tipo;
             },
@@ -86,7 +87,7 @@ class _RegistoWidgetState extends State<RegistodWidget> {
             groupValue: tipo,
             onChanged: (Tipo? value) {
               setState(() {
-                tipo = value;
+                tipo = value!;
               });
               avaliacao.tipo = tipo;
             },
@@ -99,7 +100,7 @@ class _RegistoWidgetState extends State<RegistodWidget> {
             groupValue: tipo,
             onChanged: (Tipo? value) {
               setState(() {
-                tipo = value;
+                tipo = value!;
               });
               avaliacao.tipo = tipo;
             },
@@ -112,7 +113,7 @@ class _RegistoWidgetState extends State<RegistodWidget> {
             groupValue: tipo,
             onChanged: (Tipo? value) {
               setState(() {
-                tipo = value;
+                tipo = value!;
               });
               avaliacao.tipo = tipo;
             },
@@ -162,36 +163,39 @@ class _RegistoWidgetState extends State<RegistodWidget> {
       onChanged: (value) {
         avaliacao.disciplina_nome = value;
       },
+      maxLength: 30,
       decoration: InputDecoration(
         border: OutlineInputBorder(),
         hintText: hint,
       ),
       validator: (value) {
-        if (value != null && value.length < 0) {
-          return 'O campo está vazio';
-        } else {
-          return null;
-        }
+        return validarForm(value);
       },
-      maxLength: 30,
     );
   }
 
-  Widget buildSubmit() {
 
-    Avaliacao avaliacao2 = Avaliacao(avaliacao.disciplina_nome, avaliacao.tipo,
-        avaliacao.data, avaliacao.nivel, avaliacao.observacoes);
+  String? validarForm(String? value){
+    if (value == null || value.isEmpty) {
+      return 'O campo está vazio';
+    }
+    return null;
+  }
+
+  Widget buildSubmit() {
     return Builder(
       builder: (context) => ButtonWidget(
         text: 'Submeter',
         onClicked: () {
+          Avaliacao avaliacaob = Avaliacao(avaliacao.disciplina_nome, avaliacao.tipo,
+              avaliacao.data, avaliacao.nivel, avaliacao.observacoes);
           final isValid = formKey.currentState!.validate();
           // FocusScope.of(context).unfocus();
-          debugPrint(avaliacao.data);
-          if (isValid) {
-            avaliacaoLista.adicionar(avaliacao2);
+          if (isValid && avaliacaob.data != "Não podes selecionar datas passadas"
+          && avaliacaob.data != "Seleciona o dia e a hora") {
+            avaliacaoLista.adicionar(avaliacaob);
             ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text('Criado com sucesso')));
+                .showSnackBar(SnackBar(content: Text('A avaliação foi registada com sucesso.')));
           }
         },
       ),

@@ -1,4 +1,5 @@
-import 'package:mini_projeto/tipo_avaliacao.dart';
+import 'package:intl/intl.dart';
+import 'package:mini_projeto/models/tipo_avaliacao.dart';
 
 class Avaliacao {
   /*
@@ -14,8 +15,15 @@ caracteres (incluindo espaços);
   Tipo? tipo = Tipo.frequencia;
   int nivel = 0;
   String observacoes = "";
-  DateTime? dateTime;
 
   Avaliacao (this.disciplina_nome, this.tipo, this.data, this.nivel, this.observacoes);
+
+  String edit (){
+    DateTime data = DateFormat('dd-MM-yyyy HH:mm').parse(this.data);
+    if(data.isBefore(DateTime.now())){
+      return "Só podem ser editadas registos de avaliações futuras.";
+    }
+    return "";
+  }
 
 }

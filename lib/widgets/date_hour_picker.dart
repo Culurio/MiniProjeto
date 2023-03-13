@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mini_projeto/avalicao.dart';
+import 'package:mini_projeto/models/avalicao.dart';
 import 'package:mini_projeto/widgets/button_widget_time.dart';
 
 class DatetimePickerWidget extends StatefulWidget {
@@ -17,18 +17,11 @@ class DatetimePickerWidget extends StatefulWidget {
 }
 
 class _DatetimePickerWidgetState extends State<DatetimePickerWidget> {
-   DateTime? dateTime = null;
-   DateTime dateTimeNow = DateTime(DateTime.now().year,DateTime.now().month,
-   DateTime.now().day,DateTime.now().hour,DateTime.now().second);
+  DateTime? dateTime;
   String getText() {
     if (dateTime == null && !widget.edit) {
       return 'Seleciona o dia e a hora';
     } else {
-      if(widget.edit){
-        return DateFormat('dd/MM/yyyy HH:mm').format(widget.avaliacao.dateTime!);
-      }
-      widget.avaliacao.data = DateFormat('dd/MM/yyyy HH:mm').format(dateTime!);
-      widget.avaliacao.dateTime = dateTime;
       return widget.avaliacao.data;
     }
   }
@@ -41,6 +34,7 @@ class _DatetimePickerWidgetState extends State<DatetimePickerWidget> {
   );
 
   Future pickDateTime(BuildContext context) async {
+    widget.avaliacao.data = "Seleciona o dia e a hora";
     final date = await pickDate(context);
     if (date == null) return;
 
@@ -55,6 +49,10 @@ class _DatetimePickerWidgetState extends State<DatetimePickerWidget> {
         time.hour,
         time.minute,
       );
+      widget.avaliacao.data = DateFormat('dd-MM-yyyy HH:mm').format(dateTime!);
+      if(dateTime!.isBefore(DateTime.now())){
+        widget.avaliacao.data = "Não podes selecionar datas passadas";
+      }
     });
   }
 

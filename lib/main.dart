@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mini_projeto/avaliacoesLista.dart';
+import 'package:mini_projeto/models/avaliacoesLista.dart';
+import 'package:mini_projeto/models/avalicao.dart';
+import 'package:mini_projeto/models/tipo_avaliacao.dart';
 import 'package:mini_projeto/pages/listar_registo.dart';
 import 'package:mini_projeto/pages/registo_avaliacao.dart';
+
+import 'pages/dashboard.dart';
 
 void main() {
   runApp(MyApp());
@@ -25,6 +29,7 @@ class MyApp extends StatelessWidget {
     900: Color(0xFF227C9D),
   },
   );
+
 
   // This widget is the root of your application.
   @override
@@ -52,7 +57,7 @@ class _HomeState extends State<Home> {
   static const TextStyle optionStyle =
   TextStyle(fontFamily: 'Gotham',fontWeight: FontWeight.bold, fontSize: 40);
   static const List<Widget> _widgetOptions = <Widget>[
-    DashboardWidget(optionStyle: optionStyle),
+    Dashboard(),
     ListarWidget(),
     RegistodWidget(),
   ];
@@ -61,6 +66,15 @@ class _HomeState extends State<Home> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    avaliacaoLista.adicionar(Avaliacao("Algebra Linear", Tipo.projeto, "12-10-2022 12:10", 5, "observacoes"));
+    avaliacaoLista.adicionar(Avaliacao("LP2", Tipo.projeto, "05-02-2023 12:10", 5, "observacoes"));
+    avaliacaoLista.adicionar(Avaliacao("Computação Movel", Tipo.miniTeste, "10-12-2023 11:10", 5, "Testesteste"));
+    avaliacaoLista.adicionar(Avaliacao("LP2", Tipo.defesa, "12-10-2022 12:10", 3, "observacoes"));
   }
 
   @override
@@ -99,22 +113,6 @@ class _HomeState extends State<Home> {
   }
 }
 
-class DashboardWidget extends StatelessWidget {
-  const DashboardWidget({
-    super.key,
-    required this.optionStyle,
-  });
-
-  final TextStyle optionStyle;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      'Dashboard',
-      style: optionStyle,
-    );
-  }
-}
 
 
 

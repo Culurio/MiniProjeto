@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mini_projeto/avalicao.dart';
+import 'package:mini_projeto/models/avalicao.dart';
 import 'package:mini_projeto/widgets/build_text_widget.dart';
 import 'package:mini_projeto/widgets/button_widget.dart';
 import 'package:mini_projeto/main.dart';
-import 'package:mini_projeto/tipo_avaliacao.dart';
+import 'package:mini_projeto/models/tipo_avaliacao.dart';
 import 'package:mini_projeto/widgets/date_hour_picker.dart';
 
 class EditarRegistodWidget extends StatefulWidget {
@@ -30,6 +30,9 @@ class _EditarRegistoWidgetState extends State<EditarRegistodWidget> {
     tipo = avaliacao.tipo;
     _value = avaliacao.nivel;
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Editar formulário"),
+      ),
       body: Form(
         key: formKey,
         //autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -39,16 +42,16 @@ class _EditarRegistoWidgetState extends State<EditarRegistodWidget> {
             Column(
               children: [
                 ListTile(
-                  title: BuildText_widget(text: "Nome da disciplina", icon: Icons.person),
+                  title: BuildText_widget(text: "Editar nome da disciplina", icon: Icons.person),
                   subtitle: buildForm(avaliacao.disciplina_nome, false, "nome"),
                 ),
                 DatetimePickerWidget(avaliacao:avaliacao,edit: true),
                 const SizedBox(height: 50),
-                BuildText_widget(text: "Tipo da avalição", icon: Icons.text_snippet_outlined),
+                BuildText_widget(text: "Editar tipo da avalição", icon: Icons.text_snippet_outlined),
                 buildOptions(),
                 const SizedBox(height: 50),
                 ListTile(
-                  title: BuildText_widget(text: "Dificuldade", icon: Icons.warning_amber_rounded),
+                  title: BuildText_widget(text: "Editar dificuldade", icon: Icons.warning_amber_rounded),
                   subtitle: sliderDificuldade(),
                 ),
                 const SizedBox(height: 50),
@@ -185,19 +188,21 @@ class _EditarRegistoWidgetState extends State<EditarRegistodWidget> {
 
   Widget buildSubmit() {
 
-    Avaliacao avaliacao2 = Avaliacao(avaliacao.disciplina_nome, avaliacao.tipo,
-        avaliacao.data, avaliacao.nivel, avaliacao.observacoes);
     return Builder(
       builder: (context) => ButtonWidget(
-        text: 'Submeter',
+        text: 'Editar',
         onClicked: () {
+          Avaliacao avaliacaob = Avaliacao(avaliacao.disciplina_nome, avaliacao.tipo,
+              avaliacao.data, avaliacao.nivel, avaliacao.observacoes);
           final isValid = formKey.currentState!.validate();
           // FocusScope.of(context).unfocus();
-          debugPrint(avaliacao.data);
-          if (isValid) {
-            avaliacaoLista.adicionar(avaliacao2);
+          if (isValid && avaliacaob.data != "Não podes selecionar datas passadas"
+              && avaliacaob.data != "Seleciona o dia e a hora") {
+            avaliacaoLista.remover(widget.index,widget.avaliacao);
+            avaliacaoLista.adicionar(avaliacaob);
+            Navigator.pop(context);
             ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text('Criado com sucesso')));
+                .showSnackBar(SnackBar(content: Text('O registo de avaliação selecionado foi editado com sucesso.')));
           }
         },
       ),

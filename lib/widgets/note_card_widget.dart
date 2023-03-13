@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mini_projeto/avalicao.dart';
+import 'package:mini_projeto/models/avalicao.dart';
 import 'package:mini_projeto/pages/editar_avaliacao.dart';
 
+import '../pages/listar_registo.dart';
+import 'build_details_widget.dart';
 
-class NoteCard extends StatelessWidget {
+
+class NoteCard extends StatefulWidget {
   late final String title;
   late final String type;
   late final String evaluationDate;
@@ -21,6 +24,11 @@ class NoteCard extends StatelessWidget {
         required this.index,
       this.onClicked});
 
+  @override
+  State<NoteCard> createState() => _NoteCardState();
+}
+
+class _NoteCardState extends State<NoteCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -52,7 +60,7 @@ class NoteCard extends StatelessWidget {
             child: Align(
                 alignment: Alignment.center,
                 child: Text(
-                  title,
+                  widget.title,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
@@ -75,7 +83,7 @@ class NoteCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  type,
+                  widget.type,
                   style: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
@@ -91,7 +99,7 @@ class NoteCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  evaluationDate,
+                  widget.evaluationDate,
                   style: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
@@ -107,7 +115,7 @@ class NoteCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  difficulty,
+                  widget.difficulty,
                   style: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
@@ -125,11 +133,15 @@ class NoteCard extends StatelessWidget {
                   width: 5,
                 ),
                 ElevatedButton(
-                  onPressed: onClicked,
+                  onPressed: (){
+                    Navigator.push( context, MaterialPageRoute( builder: (context) => SubjectDetailsCard(
+                        avaliacao: widget.avaliacao)),
+                    );
+                  },
                   child: const Text(
-                    'Ver Observações',
+                    'Ver Detalhes',
                     style: TextStyle(
-                      color: Colors.blue,
+                      color: Colors.white,
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -140,13 +152,19 @@ class NoteCard extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>EditarRegistodWidget(
-                      avaliacao: avaliacao,index: index)));
+                    if(widget.avaliacao.edit() == ""){
+                      Navigator.push( context, MaterialPageRoute( builder: (context) => EditarRegistodWidget(
+                          avaliacao: widget.avaliacao,index: widget.index)),
+                      );
+                    }else{
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(content: Text(widget.avaliacao.edit())));
+                    }
                   },
                   child: const Text(
                     'Editar',
                     style: TextStyle(
-                      color: Colors.blue,
+                      color: Colors.white,
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -158,5 +176,6 @@ class NoteCard extends StatelessWidget {
         ],
       ),
     );
+
   }
 }
