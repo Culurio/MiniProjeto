@@ -1,7 +1,7 @@
 Mini Projeto Agenda IQueChumbei
 Realizado por: Cláudio Costa 22104010
+![](D:/ac controller/mini_projeto/Prints ReadMe/Lista de ava.png?raw=true "Diagrama UML")
 
-![alt text](D:/ac controller/mini_projeto/Prints ReadMe/Lista de ava.png)
 Lista das Avaliações
 ![alt text](http://url/to/img.png)
 Registo das Avaliações
