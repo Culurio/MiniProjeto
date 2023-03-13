@@ -1,6 +1,6 @@
 Mini Projeto Agenda IQueChumbei
 Realizado por: Cláudio Costa 22104010
-![Screenshot](D:/ac controller/mini_projeto/Prints ReadMe/Lista de ava.png)
+![Screenshot](Lista de ava.png)
 Lista das Avaliações
 ![alt text](http://url/to/img.png)
 Registo das Avaliações
